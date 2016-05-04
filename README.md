@@ -14,24 +14,24 @@ Data is on the [OpenSMC's Google Drive]( https://docs.google.com/spreadsheets/d/
 
 ## Cities completed
 
-* Atherton zoning code
-* Foster City zoning code
-* Portola Valley zoning code
-* San Bruno zoning code
-* San Carlos zoning code
-* San Mateo zoning code
+* Atherton
+* Foster City
+* Portola Valley
+* San Bruno
+* San Carlos
+* San Mateo
 
 ## Cities in progress
 
-* Belmont zoning code
-* Brisbane zoning code
-* Burlingame zoning code
-* Colma zoning code
-* Daly City zoning code
-* East Palo Alto zoning code
-* Half Moon Bay zoning code
-* Hillsborough zoning code
-* Menlo Park zoning code
-* Millbrae zoning code
-* Pacifica zoning code
-* Redwood City zoning code
+* Belmont
+* Brisbane
+* Burlingame
+* Colma
+* Daly City
+* East Palo Alto
+* Half Moon Bay
+* Hillsborough
+* Menlo Park
+* Millbrae
+* Pacifica
+* Redwood City
