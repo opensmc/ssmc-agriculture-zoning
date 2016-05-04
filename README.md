@@ -11,3 +11,27 @@ Data is on the [OpenSMC's Google Drive]( https://docs.google.com/spreadsheets/d/
 1. Find the locations of zoning codes for each city in San Mateo County and Unincorporated San Mateo County
 2. Review each set of zoning regulations for residential zones in each city and unincorporated County for regulations related to keeping animals (especially chickens), bees, and gardens
 3. Record what you find in each city's tab in the spreadsheet
+
+## Cities completed
+
+* Atherton zoning code
+* Foster City zoning code
+* Portola Valley zoning code
+* San Bruno zoning code
+* San Carlos zoning code
+* San Mateo zoning code
+
+## Cities in progress
+
+* Belmont zoning code
+* Brisbane zoning code
+* Burlingame zoning code
+* Colma zoning code
+* Daly City zoning code
+* East Palo Alto zoning code
+* Half Moon Bay zoning code
+* Hillsborough zoning code
+* Menlo Park zoning code
+* Millbrae zoning code
+* Pacifica zoning code
+* Redwood City zoning code
