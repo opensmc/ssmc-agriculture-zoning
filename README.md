@@ -8,7 +8,7 @@ Zoning regulations for keeping animals, bees, and agriculture for Sustainabile S
 Data is on the [OpenSMC's Google Drive]( https://docs.google.com/spreadsheets/d/199shxJaRycwVGXGR46jQNyur960dnPf-L7-lIcXyKRg/edit?usp=sharing) and on the [San Mateo County GIS download page](http://isd.smcgov.org/gis-data-download)
 
 ##Zoning Boundary Work
-Please read [these instructions] (ssmc-agriculture-zoning/OpenSMC Zoning Workflow.docx) for using QGIS to select parcels to create zoning area boundaries for each city.
+Please read [these instructions] (https://github.com/opensmc/ssmc-agriculture-zoning/blob/master/OpenSMC%20Zoning%20Workflow.docx) for using QGIS to select parcels to create zoning area boundaries for each city.
 
 ##Zoning Code Work
 1. Find the locations of zoning codes for each city in San Mateo County and Unincorporated San Mateo County
