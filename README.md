@@ -1,5 +1,5 @@
 # ssmc-agriculture-zoning
-Zoning regulations for keeping animals, bees, and agriculture for Sustainabile San Mateo County
+Zoning regulations for keeping animals, bees, and agriculture for Sustainable San Mateo County
 
 ##Introduction
 [Sustainable San Mateo County](http://www.sustainablesanmateo.org/) is working on food systems indicators this year. In order to help residents understand what they can do at their homes and on their land to promote very local food, we'll create an app that tells users if they can keep animals, bees, or convert portions or all of their land to gardens.
