@@ -18,23 +18,24 @@ Please read [these instructions] (https://github.com/opensmc/ssmc-agriculture-zo
 ## Cities completed
 
 * Atherton
-* Foster City
-* Portola Valley
-* San Bruno
-* San Carlos
-* San Mateo
-
-## Cities in progress
-
 * Belmont
 * Brisbane
 * Burlingame
 * Colma
-* Daly City
 * East Palo Alto
-* Half Moon Bay
+* Foster City
 * Hillsborough
 * Menlo Park
 * Millbrae
+* Portola Valley
+* San Bruno
+* San Carlos
+
+## Cities in progress
+
+* Daly City
+* Half Moon Bay
 * Pacifica
 * Redwood City
+* San Mateo
+* Woodside
