@@ -1,0 +1,38 @@
+Notes on Pacifica how-to.
+
+Worked on Linux systems with QGIS, ogr2ogr and GIMP open-source tools.
+
+Used ../clip.sh script to clip the overall county map to the city
+bounaries for Pacifica and extract the city streets and city parcels.
+
+After calling Pacifica planning department and talking with a few
+people there, it's clear they do not have a GIS system. Or a better
+map of zoning than the PDF document titled "City of Pacifica Zoning Maps
+Edited February 2001 City of Pacifica Planning Department." That is a 
+50 page document with 47 pages of maps to print out side-by-side and
+tape together, essentially.
+
+So grabbed the city zoning files from the web. Printed, and started
+taping together, but after doing the first 9 of the 47 pages, it
+looked like the maps had slightly-varying overlaps (from "none" to
+"a little"), so started thinkin about doing a master chart in
+photoshop. Or the free alternative to photoshop, GIMP.
+
+Made huge GIMP file as a two-color image, and imported PDF sheets
+4..50 as individual GIMP layers at 150 DPI. Layers came in with page
+numbers, so renumbered those to correspond to the panel number
+(1..47), and laid out sheets side-by-side next to each other in
+roughly right places.
+
+Cloned each layer to a 'N-shrunk' layer, and clipped the 'shrunk' layer
+to (approximately) the map panels themselves, and hid the corresponding
+'raw' layers.
+
+(Current status: half way done with this step).
+
+Moved the 'shrunk' layers together, and refined clipping and
+rotatation slightly as needed.
+
+Merged all shrunk layers into a single 'final' layer, and
+exported that as a large TIFF.
+
