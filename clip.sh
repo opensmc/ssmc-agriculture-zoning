@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 # Take a city name and makes a city directory with the city,
 # parcels and streets.
 #
@@ -29,7 +31,9 @@ fi
 
 city_underscore=`echo $city | sed -e 's/ /_/g'`
 mkdir $city_underscore
-ogr2ogr -where "NAME = '$city'" $city_underscore/city.shp JURISDICTIONAL\ BOUNDARIES/CITY.shp
+ogr2ogr -where "NAME = '$city'" ${city_underscore}/city.shp JURISDICTIONAL\ BOUNDARIES/CITY.shp
 
-ogr2ogr -clipsrc $city_underscore.shp ${city_underscore}/parcels.shp ACTIVE_PARCELS_APN.shp
-ogr2ogr -clipsrc $city_underscore.shp ${city_underscore}/streets.shp SAN\ MATEO\ COUNTY\ STREETS/STREETS.shp
+ogr2ogr -clipsrc ${city_underscore}/city.shp ${city_underscore}/parcels.shp ACTIVE_PARCELS_APN.shp
+echo $?
+ogr2ogr -clipsrc ${city_underscore}/city.shp ${city_underscore}/streets.shp SAN\ MATEO\ COUNTY\ STREETS/STREETS.shp
+echo $?
