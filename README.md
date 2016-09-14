@@ -1,5 +1,5 @@
 # ssmc-agriculture-zoning
-Zoning regulations for keeping animals, bees, and agriculture for Sustainabile San Mateo County
+Zoning regulations for keeping animals, bees, and agriculture for Sustainable San Mateo County
 
 ##Introduction
 [Sustainable San Mateo County](http://www.sustainablesanmateo.org/) is working on food systems indicators this year. In order to help residents understand what they can do at their homes and on their land to promote very local food, we'll create an app that tells users if they can keep animals, bees, or convert portions or all of their land to gardens.
@@ -8,7 +8,7 @@ Zoning regulations for keeping animals, bees, and agriculture for Sustainabile S
 Data is on the [OpenSMC's Google Drive]( https://docs.google.com/spreadsheets/d/199shxJaRycwVGXGR46jQNyur960dnPf-L7-lIcXyKRg/edit?usp=sharing) and on the [San Mateo County GIS download page](http://isd.smcgov.org/gis-data-download)
 
 ##Zoning Boundary Work
-Please read [these instructions] (https://github.com/opensmc/ssmc-agriculture-zoning/blob/master/OpenSMC%20Zoning%20Workflow.docx) for using QGIS to select parcels to create zoning area boundaries for each city.
+Please read [these instructions] (https://github.com/opensmc/ssmc-agriculture-zoning/blob/master/zoning-workflow.md) for using QGIS to select parcels to create zoning area boundaries for each city.
 
 ##Zoning Code Work
 1. Find the locations of zoning codes for each city in San Mateo County and Unincorporated San Mateo County
@@ -18,23 +18,24 @@ Please read [these instructions] (https://github.com/opensmc/ssmc-agriculture-zo
 ## Cities completed
 
 * Atherton
-* Foster City
-* Portola Valley
-* San Bruno
-* San Carlos
-* San Mateo
-
-## Cities in progress
-
 * Belmont
 * Brisbane
 * Burlingame
 * Colma
-* Daly City
 * East Palo Alto
-* Half Moon Bay
+* Foster City
 * Hillsborough
 * Menlo Park
 * Millbrae
+* Portola Valley
+* San Bruno
+* San Carlos
+
+## Cities in progress
+
+* Daly City
+* Half Moon Bay
 * Pacifica
 * Redwood City
+* San Mateo
+* Woodside
