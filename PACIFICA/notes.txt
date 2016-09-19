@@ -28,11 +28,38 @@ Cloned each layer to a 'N-shrunk' layer, and clipped the 'shrunk' layer
 to (approximately) the map panels themselves, and hid the corresponding
 'raw' layers.
 
-(Current status: half way done with this step).
+Status: Have made all shrunk layers, starting to move them together
+by beginning mid-map (panel 18/19).
 
 Moved the 'shrunk' layers together, and refined clipping and
 rotatation slightly as needed.
 
+Seems to work best if each 'shrunk' layer is made transparent execpt
+for the ink. In GIMP, that's done by selecting the white with color
+select, then (in the layer dialog) right-clicking on the layer to add
+a mask. In the dialog that appears, set the mask to be by selection,
+inverted. Then immediately right-click on the layer again and apply the
+mask. Finally, use select > all (control-A) to drop the selection.
+But not only do layers sometimes overlap, they sometimes are rotated
+vs one another. Might be worth playing with hugin align image stack.
+
 Merged all shrunk layers into a single 'final' layer, and
 exported that as a large TIFF.
 
+
+================================================================
+
+Manual stank.
+
+So wrote pdf_process to extract PDF pages as TIFF files, and 
+will try to use Hugin to combine them.
+
+Requires ImageMagick and Hugin.
+
+To make the TIFF files for Hugin, invoke pdf_process as 
+       ./pdf_process.sh Zoning\ Maps.pdf foo 4 50 -3
+
+I had to hand-massage the crop geometry to balance not grabbing too
+much vs clipping the map. Some panels (#24, #25, #27) are very big.
+Other panels (#3, #6, #24) have a 'box' that extends pretty far into
+the picture.
