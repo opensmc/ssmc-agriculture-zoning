@@ -1,0 +1,3 @@
+Daly City zoning is courtesy of John S. in the Daly City
+Public works department. He provided the ESRI shape files
+here, which have been transformed into geojson.
