@@ -342,12 +342,14 @@
           <category render="true" symbol="13" value="R-1" label="R-1"/>
           <category render="true" symbol="14" value="R-1/B-1" label="R-1/B-1"/>
           <category render="true" symbol="15" value="R-1/B-10" label="R-1/B-10"/>
-          <category render="true" symbol="16" value="R-1/B-3" label="R-1/B-3"/>
-          <category render="true" symbol="17" value="R-1/B-4" label="R-1/B-4"/>
-          <category render="true" symbol="18" value="R-2" label="R-2"/>
-          <category render="true" symbol="19" value="R-3" label="R-3"/>
-          <category render="true" symbol="20" value="R-3-G" label="R-3-G"/>
-          <category render="true" symbol="21" value="R-3.1" label="R-3.1"/>
+          <category render="true" symbol="16" value="R-1/B-2" label="R-1/B-2"/>
+          <category render="true" symbol="17" value="R-1/B-3" label="R-1/B-3"/>
+          <category render="true" symbol="18" value="R-1/B-4" label="R-1/B-4"/>
+          <category render="true" symbol="19" value="R-1/B-5" label="R-1/B-5"/>
+          <category render="true" symbol="20" value="R-2" label="R-2"/>
+          <category render="true" symbol="21" value="R-3" label="R-3"/>
+          <category render="true" symbol="22" value="R-3-G" label="R-3-G"/>
+          <category render="true" symbol="23" value="R-3.1" label="R-3.1"/>
         </categories>
         <symbols>
           <symbol alpha="0.5" clip_to_extent="1" type="fill" name="0">
@@ -443,7 +445,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="14">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="83,126,54,255"/>
+              <prop k="color" v="112,151,84,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -473,7 +475,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="16">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="112,156,81,255"/>
+              <prop k="color" v="91,146,23,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -488,7 +490,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="17">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="98,135,72,255"/>
+              <prop k="color" v="112,156,81,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -503,7 +505,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="18">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="81,174,74,255"/>
+              <prop k="color" v="98,135,72,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -518,7 +520,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="19">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="90,223,138,255"/>
+              <prop k="color" v="117,152,92,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -548,7 +550,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="20">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="86,217,100,255"/>
+              <prop k="color" v="81,174,74,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -561,6 +563,36 @@
             </layer>
           </symbol>
           <symbol alpha="1" clip_to_extent="1" type="fill" name="21">
+            <layer pass="0" class="SimpleFill" locked="0">
+              <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="color" v="90,223,138,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+            </layer>
+          </symbol>
+          <symbol alpha="1" clip_to_extent="1" type="fill" name="22">
+            <layer pass="0" class="SimpleFill" locked="0">
+              <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="color" v="86,217,100,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+            </layer>
+          </symbol>
+          <symbol alpha="1" clip_to_extent="1" type="fill" name="23">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
               <prop k="color" v="178,223,112,255"/>
