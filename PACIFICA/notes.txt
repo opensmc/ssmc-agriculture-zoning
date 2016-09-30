@@ -47,7 +47,8 @@ uncomfortably often I'd find a 2016 parcel that spaned more than one
 2001 zoning bounary. If the discrepancy was "small" (in the sense that
 the bulk of the area clearly fit in one zone), I'd assign the parcel
 to the dominant zone. If the discrepancy was signficant, I'd leave
-the parcel un-zoned.
+the parcel un-zoned. I guessed a lot more in the top part of the map,
+and left things blank a lot more in the bottom of the map.
 
 It became apparent that boundaries between panels required extra caution
 because some parcels that stretched off the panel had different labels
@@ -55,6 +56,11 @@ on another panel. Especially if what had been two parcels in 2001 had been
 merged into one panel in 2016. So a few times I'd assigned a zone to
 a parcel extending off the screen, and discover later that the parcel
 was 'wrong' when looking at it with a different panel. Whoops.
+
+A good example of this is on panel 36/37, just to the west of
+St. Lawrence. On panel 36, all the open space beyond the home-sized
+lots is clearly R-1. Flip to panel 37, however, and you see a block
+of C-R... in what you might well have already marked R-1.
 
 The best way to catch this was to assign distinct colors to zones as
 soon as I labled a parcel with a new-so-far zone. This helped focus
@@ -100,12 +106,16 @@ In hope it helps the next person, here's what I tried.
 I'd wanted to tape the 2001 map panels together to make a big map,
 and not worry about panel boundaries at all.
 
-Printed, and started taping together, but after doing the first 9 of
-the 47 pages, it looked like the maps had slightly-varying overlaps
-(from "none" to "a fair bit"). Most panels have at least one interior
-corner that must align with three other panels, and the more I taped
-the more clear it was that I could not make panel four align with the
-other three.
+Printed, and started laying out. After doing the first 9 of the 47
+pages, it looked like the maps had slightly-varying overlaps (from
+"none" to "a fair bit"). Most panels have at least one interior corner
+that must align with three other panels, and I could not make panel
+four align with the other three. The problem was getting worse the
+further I went (errors accumulated). Plus, if I did not tape the pages
+together as I went, adding a new page tended to slight move earlier
+sheets and ruin the alignment. But if I taped, I thought I'd have to
+spend a lot of time un-taping and re-taping earlier pages to make the
+later pages work.
 
 There's also an issue with zoning names. Often the zoning names extend
 'off' of the map part of the panel, and folding or cutting the panels
@@ -114,25 +124,28 @@ to line up the maps loses some of the zoning name.
 
 ### Using GIMP to make a master map
 
-So started thinking about doing a master chart in
-photoshop. Or the free alternative to photoshop, GIMP.
+So I started thinking about doing a master chart in photoshop. Or the
+free alternative to photoshop, GIMP. There's no taping to un-do in
+GIMP, and moving GIMP layers around never jostles the position of
+other layers.
 
-A made huge GIMP file as a two-color image, and imported PDF sheets
+I made huge GIMP file as a two-color image, and imported PDF sheets
 4..50 as individual GIMP layers at 150 DPI. Layers came in with page
 numbers, so renumbered those to correspond to the panel number
-(1..47), and laid out sheets side-by-side next to each other in
+(1..47), and laid out pages side-by-side next to each other in
 roughly right places.
 
 I cloned each layer to a 'N-shrunk' layer, and clipped the 'shrunk'
-layer to (approximately) the map panels themselves, and hid the
+layer to (approximately) the map panels themselves, and then hid the
 corresponding 'raw' layers.
 
-Moved the 'shrunk' layers together, and refined clipping and
+I moved the 'shrunk' layers together, and refined clipping and
 rotatation slightly as needed.
 
-While this sounded a bit better than doing it by hand, I could
-not get all the rotations right. And clipping to just the 
-'map' part of the panel had the same issue with zoning names.
+While was a bit better than doing it on a desk with paper in that
+adding a page didn't move a prior page, I still could not get all the
+rotations right. And clipping to just the 'map' part of the panel had
+the same issue with zoning names.
 
 So I started playing with removing the 'white' from each panel
 so that I could transparently overlay just the 'black' ink
@@ -158,39 +171,45 @@ anyone wants to start from where I gave up.
 
 Since the key to the probelm was clearly getting the layers rotated
 and aligned, I opted to try to make hugin (a photo-alignment tool)
-solve the probelm.
+solve the problem.
 
-Hugin needs individual TIFF (or JPG) files, and exporting each
-GIMP layer as a TIFF mamuall was tedious.
+Hugin needs individual TIFF (or JPG) files, and exporting each GIMP
+layer as a TIFF manually was tedious, so I wrote a tool to extract PDF
+pages as TIFF.
 
-So I wrote pdf_process to extract PDF pages as TIFF files, and 
-will try to use Hugin to combine them. 
-
-The map panels are not all at the same location on the page, however.
-I had to hand-massage the crop geometry to balance not grabbing too
-much vs clipping the map. Some panels (#24, #25, #27) are very big.
-Other panels (#3, #6, #24) have a 'box' that extends pretty far into
-the picture. But in the end the script output was pretty good.
+The map panels are not all at the same location on the page,
+unfortunately.  I had to hand-massage the crop geometry to balance not
+grabbing too much vs clipping the map. Some panels (#24, #25, #27) are
+very big.  Other panels (#3, #6, #24) have a 'box' that extends pretty
+far into the picture. But in the end the script output was pretty
+good.
 
 That code is in this directory. You'll need imagemagik, but
 you can make the TIFF files for Hugin by invoking pdf_process as 
        ./pdf_process.sh Zoning\ Maps.pdf foo 4 50 -3
 
-
 Then I loaded the images into Hugin... and found that it needed me
 to set the control points by hand.
 
-After aligning a few points, Hugin's manual control-point picker
-does at great job at helping you pick additional control points.
-But hugin wants a BUNCH of control points for each boundary. I was
-hoping to pick 5 or 10, but my "progress bar" never moved past
-about 5%. A quick look at the panels says there are 72 boundaries,
-and I couldn't see satisfying hugin for one of them, much less 72.
+I eventually decided to just try it to merge two panels to see how it
+would work. After aligning a few points, Hugin's manual control-point
+picker does at great job at helping you pick additional control
+points.  But hugin wants a BUNCH of control points for each
+boundary. I was hoping to pick 5 or 10, but my "progress bar" never
+moved past about 5%. While I might have had enough patience to make
+enough control points for one or two boundaries, a look at the
+parcels shows there are 72 bounaries. And it was clear that would
+be a lot of time... without accomplishing any GIS work toward a zoning
+map.
 
 
 ## Conclusion
 
-Good luck!  I hope this gets you up to speed quickly and you can
-spend less time doing down blind alleys than I did.
+Pacifica zoning was tedious and imperfect, but on the whole it wasn't
+too bad once I adjusted my expectations and my focus.
 
+I hope this gets you up to speed quickly and you can spend avoid some
+of the unproductive paths I wasted time on.
+
+Good luck!
 
