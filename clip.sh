@@ -1,8 +1,11 @@
 #!/bin/sh
 
-set -x
+# Copyright 2016 R. A. Reitmeyer
+#
+# Released under the MIT license
 
-# Take a city name and makes a city directory with the city,
+
+# Script to a city name and makes a city directory with the city,
 # parcels and streets.
 #
 # REQUIRES:
@@ -32,8 +35,19 @@ fi
 city_underscore=`echo $city | sed -e 's/ /_/g'`
 mkdir $city_underscore
 ogr2ogr -where "NAME = '$city'" ${city_underscore}/city.shp JURISDICTIONAL\ BOUNDARIES/CITY.shp
+if [ $? -ne 0 ]; then
+    echo "making city clipping boundary failed" 1>&2
+    exit 1
+fi
 
 ogr2ogr -clipsrc ${city_underscore}/city.shp ${city_underscore}/parcels.shp ACTIVE_PARCELS_APN.shp
-echo $?
+if [ $? -ne 0 ]; then
+    echo "clipping parcels to city boundaries failed" 1>&2
+    exit 1
+fi
+
 ogr2ogr -clipsrc ${city_underscore}/city.shp ${city_underscore}/streets.shp SAN\ MATEO\ COUNTY\ STREETS/STREETS.shp
-echo $?
+if [ $? -ne 0 ]; then
+    echo "clipping streets to city boundaries failed" 1>&2
+    exit 1
+fi
