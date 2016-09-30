@@ -1,65 +1,196 @@
-Notes on Pacifica how-to.
+# Notes on Pacifica how-to.
 
-Worked on Linux systems with QGIS, ogr2ogr and GIMP open-source tools.
+I'll record how I did it, and how I thought I was going to do it,
+in hope the next person can learn from what worked... and what didn't.
+
+
+## What worked:
+
+Worked on Linux systems with QGIS, ogr2ogr and other open-source tools.
+
+
+### Clipping with ogr2ogr script
 
 Used ../clip.sh script to clip the overall county map to the city
 bounaries for Pacifica and extract the city streets and city parcels.
+
+That was very fast and easy to slim the county data down to just
+Pacifica, so I could work in QGIS without worrying about memory
+or encountering poor performance.
+
+
+### QGIS and staring at panel printouts
 
 After calling Pacifica planning department and talking with a few
 people there, it's clear they do not have a GIS system. Or a better
 map of zoning than the PDF document titled "City of Pacifica Zoning Maps
 Edited February 2001 City of Pacifica Planning Department." That is a 
-50 page document with 47 pages of maps to print out side-by-side and
-tape together, essentially.
+50 page document with 47 pages of maps to print out.  I'll call each page
+a panel for clarity.
 
-So grabbed the city zoning files from the web. Printed, and started
-taping together, but after doing the first 9 of the 47 pages, it
-looked like the maps had slightly-varying overlaps (from "none" to
-"a little"), so started thinkin about doing a master chart in
+After many false starts (described below), I worked from each panel
+individually in QGIS, by zooming the QGIS screen to more-or-less match
+the panel. Showing street names in QGIS was a huge help in this.
+
+Panel boundaries were hard, so I would sometimes lay out paper copies
+of the two panels spanning the boundary of interest, side-by-side
+on the table, without trying to tape them or align them. Then I'd
+look at them and the QGIS screen, and mentally line the three of them up.
+In the corners where four panel printouts were required this was tricky,
+but I did improve with practice, and I was definitely better at it
+toward the bottom of the map than I was at the top.
+
+Working on the panels it was important to pay attention to disagreement
+between the 2016 parcels in QGIS vs the 2001 panels from the zoning map.
+After 15 years, the parcels still (mostly) align with the map, but
+uncomfortably often I'd find a 2016 parcel that spaned more than one
+2001 zoning bounary. If the discrepancy was "small" (in the sense that
+the bulk of the area clearly fit in one zone), I'd assign the parcel
+to the dominant zone. If the discrepancy was signficant, I'd leave
+the parcel un-zoned.
+
+It became apparent that boundaries between panels required extra caution
+because some parcels that stretched off the panel had different labels
+on another panel. Especially if what had been two parcels in 2001 had been
+merged into one panel in 2016. So a few times I'd assigned a zone to
+a parcel extending off the screen, and discover later that the parcel
+was 'wrong' when looking at it with a different panel. Whoops.
+
+The best way to catch this was to assign distinct colors to zones as
+soon as I labled a parcel with a new-so-far zone. This helped focus
+on new parcels, too.
+
+
+## What sort of worked:
+
+The zoning in Pacific is usually written with dashes, on the panels.
+But not always. I encountered both P-D and PD, P-F and PF. I did P-D
+and PD both ways, assuming the 2001 map was good and I should follow it
+as closely as I could. But by the time I encounted PF and P-F I'd seen
+enough to decide that the dash/no-dash difference was simply a typo on 
+the part of the 2001 map's maker, and chose to do all the PFs as PF, no 
+dash.
+
+Pacifica does have s R-1-H zone (single family residential, hillside).
+I did all of those parcels as R-1, as I didn't see R-1-H listed on
+the zones page when I looked, and it was tedious to pick those out
+from all the R-1s. Later, toward the end of the project, I noticed
+that R-1-H *is* on the zones page---just not up at the top with the
+other R-1s. I'm told that it doesn't make a difference for OpenSMC's
+purposes, but one thing that could be improved would be to distinguish
+between R-1 and R-1-H.
+
+I also omitted the training + and x that indicate which parts of
+Pacifica need special votes for rezoning or development, since
+that clearly didn't matter for zoning-as-is. But again, perhaps
+someone else might care and want to include those.
+
+
+## What I thought would work but didn't:
+
+I knew the boundaries would be hard going in, and so I'd spent
+(wasted) a lot of time trying to eliminate the boundaries between the
+panels.
+
+In hope it helps the next person, here's what I tried.
+
+
+### Taping the map panels together
+
+I'd wanted to tape the 2001 map panels together to make a big map,
+and not worry about panel boundaries at all.
+
+Printed, and started taping together, but after doing the first 9 of
+the 47 pages, it looked like the maps had slightly-varying overlaps
+(from "none" to "a fair bit"). Most panels have at least one interior
+corner that must align with three other panels, and the more I taped
+the more clear it was that I could not make panel four align with the
+other three.
+
+There's also an issue with zoning names. Often the zoning names extend
+'off' of the map part of the panel, and folding or cutting the panels
+to line up the maps loses some of the zoning name.
+
+
+### Using GIMP to make a master map
+
+So started thinking about doing a master chart in
 photoshop. Or the free alternative to photoshop, GIMP.
 
-Made huge GIMP file as a two-color image, and imported PDF sheets
+A made huge GIMP file as a two-color image, and imported PDF sheets
 4..50 as individual GIMP layers at 150 DPI. Layers came in with page
 numbers, so renumbered those to correspond to the panel number
 (1..47), and laid out sheets side-by-side next to each other in
 roughly right places.
 
-Cloned each layer to a 'N-shrunk' layer, and clipped the 'shrunk' layer
-to (approximately) the map panels themselves, and hid the corresponding
-'raw' layers.
-
-Status: Have made all shrunk layers, starting to move them together
-by beginning mid-map (panel 18/19).
+I cloned each layer to a 'N-shrunk' layer, and clipped the 'shrunk'
+layer to (approximately) the map panels themselves, and hid the
+corresponding 'raw' layers.
 
 Moved the 'shrunk' layers together, and refined clipping and
 rotatation slightly as needed.
 
-Seems to work best if each 'shrunk' layer is made transparent execpt
-for the ink. In GIMP, that's done by selecting the white with color
-select, then (in the layer dialog) right-clicking on the layer to add
-a mask. In the dialog that appears, set the mask to be by selection,
-inverted. Then immediately right-click on the layer again and apply the
-mask. Finally, use select > all (control-A) to drop the selection.
-But not only do layers sometimes overlap, they sometimes are rotated
-vs one another. Might be worth playing with hugin align image stack.
+While this sounded a bit better than doing it by hand, I could
+not get all the rotations right. And clipping to just the 
+'map' part of the panel had the same issue with zoning names.
 
-Merged all shrunk layers into a single 'final' layer, and
-exported that as a large TIFF.
+So I started playing with removing the 'white' from each panel
+so that I could transparently overlay just the 'black' ink
+from the zones --- then if a zoning label extended into the
+next panel it wouldn't matter.
+
+I did this by making 'shrunk' layers transparent execpt for the
+ink. In GIMP, that's done by selecting the white with color select,
+then (in the layer dialog) right-clicking on the layer to add a
+mask. In the dialog that appears, set the mask to be by selection,
+inverted. Then immediately right-click on the layer again and apply
+the mask. Finally, use select > all (control-A) to drop the selection.
+
+But again, I could not get the rotations to work, and when
+two panels with some overlap were stacked transparently, the
+double-printing made it completely illegible.
+
+I'm leaving the last version of the GIMP file in this directory if
+anyone wants to start from where I gave up.
 
 
-================================================================
+### Extracting TIFFs and using the Hugin photo-stitcher to align
 
-Manual stank.
+Since the key to the probelm was clearly getting the layers rotated
+and aligned, I opted to try to make hugin (a photo-alignment tool)
+solve the probelm.
 
-So wrote pdf_process to extract PDF pages as TIFF files, and 
-will try to use Hugin to combine them.
+Hugin needs individual TIFF (or JPG) files, and exporting each
+GIMP layer as a TIFF mamuall was tedious.
 
-Requires ImageMagick and Hugin.
+So I wrote pdf_process to extract PDF pages as TIFF files, and 
+will try to use Hugin to combine them. 
 
-To make the TIFF files for Hugin, invoke pdf_process as 
-       ./pdf_process.sh Zoning\ Maps.pdf foo 4 50 -3
-
+The map panels are not all at the same location on the page, however.
 I had to hand-massage the crop geometry to balance not grabbing too
 much vs clipping the map. Some panels (#24, #25, #27) are very big.
 Other panels (#3, #6, #24) have a 'box' that extends pretty far into
-the picture.
+the picture. But in the end the script output was pretty good.
+
+That code is in this directory. You'll need imagemagik, but
+you can make the TIFF files for Hugin by invoking pdf_process as 
+       ./pdf_process.sh Zoning\ Maps.pdf foo 4 50 -3
+
+
+Then I loaded the images into Hugin... and found that it needed me
+to set the control points by hand.
+
+After aligning a few points, Hugin's manual control-point picker
+does at great job at helping you pick additional control points.
+But hugin wants a BUNCH of control points for each boundary. I was
+hoping to pick 5 or 10, but my "progress bar" never moved past
+about 5%. A quick look at the panels says there are 72 boundaries,
+and I couldn't see satisfying hugin for one of them, much less 72.
+
+
+## Conclusion
+
+Good luck!  I hope this gets you up to speed quickly and you can
+spend less time doing down blind alleys than I did.
+
+
