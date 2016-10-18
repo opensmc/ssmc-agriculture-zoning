@@ -1,0 +1,149 @@
+<html>
+<head>
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+  <![endif]-->
+  <style>
+    html, body {width:100%; height:100%; padding: 0; margin: 0;}
+    #cartodb-map { width: 100%; height:100%; background: black;}
+	#menu { position: absolute; top: 5px; right: 10px; width: 400px; height:60px; background: transparent; z-index:10;}
+    #menu a { 
+      margin: 55px 10px 0 0;
+      float: right;
+      vertical-align: baseline;
+      width: 70px;
+      padding: 15px;
+      text-align: center;
+      font: bold 14px "Helvetica",Arial;
+      line-height: normal;
+      color: #555;
+      border-radius: 4px;
+      border: 1px solid #777777;
+      background: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #menu a.selected,
+    #menu a:hover { 
+      color: #F84F40;
+    }
+  </style>
+
+  <script>
+    var map;
+	var sublayers = [];
+    function init(){
+      // initiate leaflet map
+      map = new L.Map('cartodb-map', { 
+        center: [37.535,-122.35499],
+        zoom: 12
+      })
+
+      L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
+      }).addTo(map);
+
+      var layerUrl = 'https://opensmc.carto.com/api/v2/viz/71e3c5bc-9014-11e6-9b53-0e233c30368f/viz.json';
+	  
+	  
+      cartodb.createLayer(map, layerUrl, {legends:false})
+        .addTo(map)
+		
+        .on('done', function(layer) {
+		
+		  var v = cdb.vis.Overlay.create('search', map.viz, {})
+		  v.show();
+		  $('#cartodb-map').append(v.render().el);
+		  
+		  var num_sublayers = layer.getSubLayerCount();
+		  //console.log(num_sublayers)
+		  layer.getSubLayer(0).hide();
+		  sublayers.push(layer.getSubLayer(0));
+		  layer.getSubLayer(1).hide();
+		  sublayers.push(layer.getSubLayer(1));
+		  layer.getSubLayer(2).hide();
+		  sublayers.push(layer.getSubLayer(2));
+		  
+        }).on('error', function() {
+          //log the error
+        }) ;		
+    }  
+	
+	
+/*	  var LayerActions = {
+    bees: function(){
+      layer.getSubLayer(0).show();
+	  console.log("bees");
+      return true;
+    },
+    birds: function(){
+      layer.getSubLayer(1).show();
+	  console.log("birds");
+      return true;
+    },
+    beans: function() {
+      layer.getSubLayer(2).show();
+	  console.log("beans");
+      return true;
+    }
+  } */
+  
+  window.onload = function(){ 
+
+	document.getElementById("beans").onclick = function() {beansFunction()};
+	function beansFunction() {
+	sublayers[0].hide();
+	sublayers[1].hide();
+	sublayers[2].show();
+	document.getElementById("legend").innerHTML = "Can I have a garden?";
+	}
+	
+    document.getElementById("birds").onclick = function() {birdsFunction()};
+	function birdsFunction() {
+	sublayers[0].hide();
+	sublayers[2].hide();
+	sublayers[1].show();
+	document.getElementById("legend").innerHTML = "Can I have chickens or other animals?";
+	}
+	
+	document.getElementById("bees").onclick = function() {beesFunction()};
+	function beesFunction() {
+	sublayers[1].hide();
+	sublayers[2].hide();
+	sublayers[0].show();
+	document.getElementById("legend").innerHTML = "Can I have bees?";
+	}
+};
+
+	
+  $('.button').click(function() {
+  //console.log("test");
+  //$('.button').removeClass('selected');
+  //$(this).addClass('selected');
+  //LayerActions[$(this).attr('id')]();
+});		 
+
+  </script>
+</head>
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+<body onload="init()">
+  <div id='cartodb-map'></div> 
+  <div id='menu'>
+    <a href="#bees" id="bees" class="button bees">BEES</a> 
+    <a href="#birds" id="birds" class="button birds">BIRDS</a> 
+    <a href="#beans" id="beans" class="button beans">BEANS</a>	
+  </div>
+  <div class="cartodb-legend category" style="display: block;">
+<div class="legend-title" id = "legend">What can I have?</div><ul>
+<li>		<div class="bullet" style="background: #229A00"></div> allowed</li>
+<li>		<div class="bullet" style="background: #FF9900"></div> allowed with permit</li>
+<li>		<div class="bullet" style="background: #FFCC00"></div> allowed, see details</li>
+<li>		<div class="bullet" style="background: #afafaf"></div> no information</li>
+<li>		<div class="bullet" style="background: #B81609"></div> not allowed</li></ul></div>
+
+</form></div>
+  
+</body>
+</html>
