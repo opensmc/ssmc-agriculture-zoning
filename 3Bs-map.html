@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15.10/themes/css/cartodb.css" />
+    <link rel="shortcut icon" href="//opensmc.org/favicon.png">
+    <!-- Placing js libraries in head because there's no point in loading the page without them -->
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+    <script src="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.standalone.js"></script>
+    <script src="map-script.js"></script>
+    <!-- <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" /> -->
+    <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
     <style>
       html, body, #map {
         width:100%;
@@ -14,36 +20,26 @@
         margin: 0;
       }
       .custom-control {
-        display: block;
-        position: absolute;
-        border-radius: 4px;
-        border: 1px solid #999;
-        box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
-        padding: 10px;
-        background-color: #fff;
-        color: #666;
-        font-family: Helvetica, Arial;
+        padding: 1em;
         text-transform: uppercase;
       }
-      #locate-me {
-        right: 174px;
-        top: 20px;
-        width: 30px;
-        height: 30px;
-        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24px' height='24px' viewBox='0 0 24 24'%3E %3Cpath fill='%23999999' d='M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z' /%3E %3C/svg%3E") no-repeat;
+      #custom-location-detection-button {
+        width: 28px;
+        height: 28px;
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px' viewBox='0 0 24 24'%3E %3Cpath fill='%23666666' d='M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z' /%3E %3C/svg%3E") no-repeat;
         background-position: center;
         overflow: hidden;
+        border: solid 1px #999;
       }
-      #layer-controls {
-        right: 20px;
-        top: 60px;
-        padding: 10px;
+      #custom-tab-view-button {
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px' viewBox='0 0 24 24'%3E %3Cpath fill='%23000000' d='M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z' /%3E %3C/svg%3E") no-repeat;
+        background-position: center;        
       }
-      #layer-controls .label-text {
+      #custom-sublayer-selector .label-text {
         font-size: 10px;
         font-weight: bold;
       }
-      #layer-controls h3 {
+      #custom-sublayer-selector h3 {
         margin-top: 0;
         font-size: 11px;
       }
@@ -54,15 +50,90 @@
         position: absolute!important;
         clip: rect(1px 1px 1px 1px);
       }
+      .leaflet-control-mapbox-geocoder-results a:hover {
+        width: auto;
+        text-align: left;
+      }
+      div.cartodb-legend-stack {
+        position: absolute;
+        bottom: 35px;
+        right: 20px;
+        border-radius: 4px;
+        border: 1px solid #999;
+        background: #fff;
+        z-index: 105;
+        cursor: text;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 1em 1.5em;
+      }
       div.cartodb-legend .legend-title {
         max-width: 12em;
+        line-height: 1.25;
+      }
+      div.cartodb-legend ul {
+        padding: 0;
+        margin: 0.5em 0 0;
+        list-style: none;
+      }
+      div.cartodb-legend.category ul li {
+        display: flex;
+        align-items: center;
       }
       div.cartodb-legend.category ul li .bullet {
-        border-radius: 0;
         width: 1em;
+        height: 1em;
+        margin: 0 0.5em 0 0;
+      }
+      div.cartodb-infowindow {
+        position: absolute;
+        z-index: 1000;
+      }
+      div.cartodb-popup {
+        position: relative;
+        padding: 0;
+        margin: 0 0 14px;
+        box-shadow: 0 0 0 4px rgba(0,0,0,.15);
+        border-radius: 2px;
+        background: #fff;
+      }
+      div.cartodb-popup.v2:before {
+        content: '';
+        position: absolute;
+        bottom: -14px;
+        left: 0;
+        width: 0;
+        height: 0;
+        margin-left: 28px;
+        border-left: 0 solid transparent;
+        border-right: 14px solid transparent;
+        border-top: 14px solid #fff;
+        z-index: 2;
+      }
+      div.cartodb-popup a.cartodb-popup-close-button {
+        position: absolute;
+        top: -9px;
+        right: -9px;
+        width: 1.5em;
+        height: 1.5em;
+        background: #fff;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 18px;
+        /* border-radius: 18px; */
+        box-shadow: 0 0 0 3px rgba(0,0,0,.15);
+        text-align: center;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+      div.cartodb-popup-content-wrapper {
+        padding: 1em;
       }
       div.cartodb-popup h4 {
         color: #999;
+        margin: 0;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        font-size: 12px;
       }
       .custom-popup-header {
         height: 130px;
@@ -70,88 +141,211 @@
         background-position: center;
       }
       .custom-popup-header.bees {
-        background-image: url(http://opensmc.org/ssmc-agriculture-zoning/map-images/bees.jpg);
+        background-image: url(map-images/bees.jpg);
       }
       .custom-popup-header.birds {
-        background-image: url(http://opensmc.org/ssmc-agriculture-zoning/map-images/birds.jpg);
+        background-image: url(map-images/birds.jpg);
       }
       .custom-popup-header.beans {
-        background-image: url(http://opensmc.org/ssmc-agriculture-zoning/map-images/beans.jpg);
+        background-image: url(map-images/beans.jpg);
+      }
+      .image-credit {
+        margin-top: 10px;
+        line-height: 1.2;
+        color: #999;
+        font-style: italic;
+      }
+      .image-credit a {
+        color: currentColor;
       }
     </style>
   </head>
   <body>
     <div id="map"></div>
-    <button id="locate-me" class="custom-control"><span class="assistive-text">Find my location</span></button>
-    <div id="layer-controls" class="custom-control">
-      <h3>View map for:</h3>
-      <label for="bees-btn" class="switch">
-        <input id="bees-btn" type="radio" value="0" name="layer-to-enable" checked>
-        <span class="label-text">Bees</span>
-      </label>
-      <label for="birds-btn" class="switch">
-        <input id="birds-btn" type="radio" value="1" name="layer-to-enable">
-        <span class="label-text">Birds</span>
-      </label>
-      <label for="beans-btn" class="switch">
-        <input id="beans-btn" type="radio" value="2" name="layer-to-enable">
-        <span class="label-text">Beans</span>
-    </div>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15.10/cartodb.js"></script>
     <script>
-      $(document).ready(function() {
-        // Utility function for showing a map layer.
-        function showlayer(vis, e) {
-          vis.getLayers()[1].getSubLayer(0).hide();
-          vis.getLayers()[1].getSubLayer(1).hide();
-          vis.getLayers()[1].getSubLayer(2).hide();
-          vis.getLayers()[1].getSubLayer(e).show();
+    // General constants for the map
+    var sublayerNames = ['bees', 'birds', 'beans'];
+    var initialSublayerIndex = 0;
+    var countyLatLng = {
+      northLat: 37.71,
+      southLat: 37.07,
+      westLng: -122.65,
+      eastLng: -122.09,
+    };
+    var countyBounds = L.latLngBounds(
+      [countyLatLng.southLat, countyLatLng.westLng],
+      [countyLatLng.northLat, countyLatLng.eastLng]
+    );
+    L.mapbox.accessToken = 'pk.eyJ1IjoidmVyeXRob3JvdWdoIiwiYSI6ImNpbGlkamE5dDMwOTN2cm0wOHo0eDMyaXIifQ.xZRwd2Uqsrz04wRL8F1NFw';
+
+
+    // Create radio buttons for selecting data layers
+    var CustomSublayerSelector = L.Control.extend({
+      options: {
+        position: 'topright',
+      },
+
+      onAdd: function makeLayerSelector() {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control custom-control');
+        container.id = 'custom-sublayer-selector';
+
+        var heading = document.createElement('h3');
+        heading.textContent = 'View map for:';
+        container.appendChild(heading);
+
+        for (var i = 0, j = sublayerNames.length; i < j; i++) {
+          var currentSublayer = sublayerNames[i];
+          var label = document.createElement('label');
+          var button = document.createElement('input');
+          var labelText = document.createElement('span');
+
+          label.setAttribute('for', currentSublayer + '-btn');
+          label.className = 'switch';
+
+          button.id = currentSublayer + '-btn';
+          button.name = 'layer-to-enable';
+          button.value = i;
+          button.setAttribute('type', 'radio');
+          if (i === initialSublayerIndex) { button.checked = true; }
+          label.appendChild(button);
+
+          labelText.className = 'label-text';
+          labelText.textContent = currentSublayer;
+          label.appendChild(labelText);
+
+          container.appendChild(label);
+        }
+
+        return container;
+      },
+    });
+
+
+    // Create button to detect and zoom to user's location
+    var CustomLocationDetectionButton = L.Control.extend({
+      options: {
+        position: 'topleft',
+      },
+
+      onAdd: function makeLocationDetectionButton(map) {
+        var button = L.DomUtil.create('button', 'leaflet-bar leaflet-control custom-control');
+        var label = L.DomUtil.create('span', 'assistive-text', button);
+
+        button.id = 'custom-location-detection-button';
+        button.title = 'Find my location';
+        label.textContent = 'Find my location';
+
+        button.onclick = function locateUser() {
+          map.locate();
         };
-        // Create Map
-        cartodb.createVis('map', 'https://opensmc.carto.com/api/v2/viz/71e3c5bc-9014-11e6-9b53-0e233c30368f/viz.json')
-        .on('done', function(vis, layers) {
-          // Set initial state of the map
-          var map = vis.getNativeMap();
-          $( "#locate-me" ).on( "click", function() {
-              detectUserLocationAndZoom(map);
+
+        return button;
+      },
+    });
+
+
+    // Create button to open map in new tab
+    var CustomNewTabViewButton = L.Control.extend({
+      options: {
+        position: 'topleft',
+      },
+
+      onAdd: function makeNewTabViewButton() {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        var link = L.DomUtil.create('a', '', container);
+        var label = L.DomUtil.create('span', 'assistive-text', container);
+
+        link.id = 'custom-tab-view-button';
+        link.setAttribute('href', location.href);
+        link.setAttribute('target', '_blank');
+        link.title = 'Open map in new tab';
+        label.textContent = 'Open map in new tab';
+
+        return container;
+      },
+    });
+
+
+    // Utility function for showing a map layer.
+    function showSublayer(layer, e) {
+      layer.infowindow.set('visibility', false);
+      layer.getSubLayer(0).hide();
+      layer.getSubLayer(1).hide();
+      layer.getSubLayer(2).hide();
+      layer.getSubLayer(e).show();
+    }
+
+    // Initialize layers
+    function addLayers(map) {
+      // Initialize layer variables
+      var mapboxBaseAddress = 'https://api.mapbox.com/styles/v1/verythorough/';
+      var mapboxBaseLayer = L.tileLayer(mapboxBaseAddress + 'civ2llev400012impeakxywiw/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+        attribution: 'Made by <a href="http://opensmc.org" target="_blank">OpenSMC</a> | ' +
+        '&copy;<a href="http://mapbox.com/about/maps" target="_blank">Mapbox</a>, ' +
+        '&copy;<a href="https://openstreetmap.org/about/" target="_blank">OpenStreetMap</a>',
+      });
+      var mapboxLabelLayer = L.tileLayer(mapboxBaseAddress + 'civ7g9zac002c2ipbk6lji2wx/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken);
+      var cartoDataLayerUrl = 'https://opensmc.carto.com/api/v2/viz/71e3c5bc-9014-11e6-9b53-0e233c30368f/viz.json';
+
+
+      // Add layers to map
+      map.addLayer(mapboxBaseLayer);
+      map.addLayer(mapboxLabelLayer);
+      mapboxLabelLayer.bringToFront();
+      cartodb.createLayer(map, cartoDataLayerUrl)
+        .addTo(map)
+        .on('done', function initSublayerSelection(layer) {
+          showSublayer(layer, initialSublayerIndex);
+          $('#custom-sublayer-selector').on('change', 'input', function sublayerSelectorEventListener(e) {
+            var sublayerSelector = e.currentTarget;
+            var sublayerToOpen = $(sublayerSelector).val();
+            showSublayer(layer, sublayerToOpen);
           });
-          showlayer(vis, 0);
-          $('#layer-controls').on('change', 'input', function(e) {
-            var layerSelector = e.currentTarget;
-            var layerToOpen = $(layerSelector).val();
-            showlayer(vis, layerToOpen);
-          });
-        }).on('error', function(err) {
+        }).on('error', function dataLayerError(err) {
           console.log('error:' + err);
         });
-      });
-      function detectUserLocationAndZoom(map) {
-        if (navigator.geolocation) {
-          var timeoutVal = 500;
-          var locatorID = navigator.geolocation.watchPosition(
-            function(position) {
-              var UPPER_LEFT_CORNER_LAT=37.8;
-              var UPPER_LEFT_CORNER_LON=-122.8;
-              var LOWER_RIGHT_CORNER_LAT=37.1;
-              var LOWER_RIGHT_CORNER_LON=-121.5;
-              var lon = position.coords.longitude;
-              var lat = position.coords.latitude;
-              // If user is within the bay area as defined by the above
-              // coordinates, zoom in on his/her location.
-              if (LOWER_RIGHT_CORNER_LAT < lat &&
-                  UPPER_LEFT_CORNER_LAT > lat &&
-                  UPPER_LEFT_CORNER_LON < lon &&
-                  LOWER_RIGHT_CORNER_LON > lon) {
-                map.setView(new L.LatLng(lat,lon), 12);
-                new L.CircleMarker([lat,lon],{radius: 4}).addTo(map);
-              }
-              navigator.geolocation.clearWatch(locatorID);
-            },
-            function() {},
-            { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-          );
-        }
+    }
+
+    // Initialize controls
+    function addControls(map) {
+      map.addControl(new CustomSublayerSelector());
+      map.addControl(L.mapbox.geocoderControl('mapbox.places', { position: 'topleft', autocomplete: true }));
+      // Show the location detection button only if the user agent supports geolocation
+      if (navigator.geolocation && location.protocol == 'https:') { 
+        map.addControl(new CustomLocationDetectionButton()); 
       }
+      // Show the new tab button only if the map is embedded in another page.
+      if (window.location !== window.parent.location) { 
+        map.addControl(new CustomNewTabViewButton()); 
+      }
+
+      // Zoom to user location, if location is in county bounding box
+      map.on('locationfound', function gotoLocationIfInBounds(e) {
+        if (countyBounds.contains(e.latlng)) {
+          map.setView(e.latlng, 16, { animate: true });
+          L.circle(e.latlng, e.accuracy / 2).addTo(map);
+        } else {
+          alert('Your location was not found in San Mateo County.');
+          map.setView([37.535, -122.35499], 12, { animate: true });
+        }
+      });
+
+      map.on('locationerror', function onLocationError(e) {
+        alert('There was a problem finding your location: ' + e.message);
+      });
+    }
+
+    $(document).ready(function initMap() {
+      var map = L.map('map', {
+        center: [37.535, -122.35499],
+        zoom: 12,
+        minZoom: 11,
+        maxZoom: 20,
+        maxBounds: countyBounds.pad(0.2),
+      });
+      addLayers(map);
+      addControls(map);
+    });
     </script>
   </body>
 </html>
