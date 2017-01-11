@@ -311,7 +311,7 @@
       map.addControl(new CustomSublayerSelector());
       map.addControl(L.mapbox.geocoderControl('mapbox.places', { position: 'topleft', autocomplete: true }));
       // Show the location detection button only if the user agent supports geolocation
-      if (navigator.geolocation && location.protocol == 'https:') { 
+      if (navigator.geolocation && window.location == window.parent.location && location.protocol == 'https:') { 
         map.addControl(new CustomLocationDetectionButton()); 
       }
       // Show the new tab button only if the map is embedded in another page.
