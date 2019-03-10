@@ -1,0 +1,5 @@
+# Redirect domain aliases to primary domain
+https://3bs.opensmc.tech/* https://3bs.opensmc.org/:splat 301!
+
+# Optional: Redirect default Netlify subdomain to primary domain
+https://3bs-map.netlify.com/* https://3bs.opensmc.org/:splat 301!
